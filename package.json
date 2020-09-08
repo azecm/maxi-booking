@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --aot=true --buildOptimizer=true --prod=true --base-href /",
     "test": "ng test",
     "lint": "ng lint"
   },
