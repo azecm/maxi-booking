@@ -11,6 +11,7 @@ export class CurrencyUpdateService {
 
     result = new Subject<CurrencyItem[]>();
     time = new Subject<Date>();
+    private enabled = true;
 
     constructor() {
         this.loaded = this.loaded.bind(this);
@@ -18,6 +19,13 @@ export class CurrencyUpdateService {
     }
 
     next() {
+        if(this.enabled){
+            this.enabled = false;
+            this.load();
+        }
+    }
+
+    private load(){
         const url = this.source[0];
         const flagJSON = url.endsWith('.js') || url.endsWith('.json');
 
@@ -28,12 +36,13 @@ export class CurrencyUpdateService {
 
     private error() {
         this.source.push(this.source.splice(0, 1)[0]);
-        this.next();
+        this.load();
     }
 
     private loaded(data: ResultData | string) {
-        if (!data) this.next();
+        if (!data) this.load();
 
+        this.enabled = true;
         this.time.next(new Date());
         this.result.next(
             typeof (data) == "string"
