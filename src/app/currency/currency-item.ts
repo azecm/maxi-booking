@@ -7,3 +7,5 @@ export interface CurrencyItem{
     name: string//"Австралийский доллар",
     value: number//55.3553,
 }
+
+export type FuncCurrency = (text: string, list: string[])=>CurrencyItem[]
